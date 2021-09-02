@@ -1,0 +1,60 @@
+#define MoistureSensorPin  21  
+// Digital pin connected to the Moisture sensor   
+
+#define MositureSensorType  MoistureSensor 
+// Moisture Sensor  
+
+float moisturesensorValue = 0;
+
+// Teensy 5V <--> HC-05 Vcc
+  // Teensy Ground <--> HC-05 GND
+#define rxPin 7 // Teensy pin 7 <--> HC-05 Tx
+#define txPin 8 // Teensy pin 8 <--> HC-05 Rx
+
+
+int YellowLed = 2;
+int GreenLed = 3;
+int RedLed = 4;
+void setup() 
+{
+  Serial.begin(9600); 
+
+  Serial1.begin(9600); 
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+
+}
+
+
+void loop() {
+  
+ for (int i = 0; i <= 100; i++)  // a loop till 100th times
+ { 
+   moisturesensorValue = moisturesensorValue + analogRead(MoistureSensorPin);  
+   delay(10); 
+ } 
+ moisturesensorValue = moisturesensorValue/100.00;     // moisturesensorValue start from 0.00
+ 
+ Serial.println(moisturesensorValue); 
+ Serial1.println(moisturesensorValue);
+ delay(100); 
+ 
+ if (moisturesensorValue < 20.0) {
+    digitalWrite(2, HIGH);
+    digitalWrite(3, LOW);
+    digitalWrite(4, LOW);
+  }
+  else if (moisturesensorValue > 20.0 && moisturesensorValue < 50.0) {
+    digitalWrite(2, LOW);
+    digitalWrite(3, HIGH);
+    digitalWrite(4, LOW);
+  }
+  else if (moisturesensorValue > 50.0) {
+    digitalWrite(2, LOW);
+    digitalWrite(3, LOW);
+    digitalWrite(4, HIGH);
+  }
+  
+  
+}
